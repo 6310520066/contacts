@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.contacts.domain.model.ContactModel
 import com.example.contacts.utils.fromHex
@@ -46,28 +45,9 @@ fun Contact(
                     border = 1.dp
                 )
             },
-            trailing = {
-                if (contact.isCheckedOff != null) {
-                    Checkbox(
-                        checked = contact.isCheckedOff,
-                        onCheckedChange = { isChecked ->
-                            val newContact = contact.copy(isCheckedOff = isChecked)
-                            onContactCheckedChange.invoke(newContact)
-                        },
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
-            },
             modifier = Modifier.clickable {
                 onContactClick.invoke(contact)
             }
         )
     }
-}
-
-@ExperimentalMaterialApi
-@Preview
-@Composable
-private fun ContactPreview() {
-    Contact(contact = ContactModel(1, "example Moon", "0871234569", "Mobile"), isSelected = true)
 }

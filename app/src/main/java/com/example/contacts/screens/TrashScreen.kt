@@ -159,37 +159,15 @@ private fun Content(
     // Init state for selected tab
     var selectedTab by remember { mutableStateOf(0) }
 
-    Column {
-        TabRow(selectedTabIndex = selectedTab) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    text = { Text(title) },
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index }
-                )
-            }
-        }
-
-        val filteredContact = when (selectedTab) {
-            0 -> {
-                contact.filter { it.isCheckedOff == null }
-            }
-            1 -> {
-                contact.filter { it.isCheckedOff != null }
-            }
-            else -> throw IllegalStateException("Tab not supported - index: $selectedTab")
-        }
-
-        LazyColumn {
-            items(count = filteredContact.size) { contactIndex ->
-                val acontact = filteredContact[contactIndex]
-                val isContactSelected = selectedContact.contains(acontact)
-                Contact(
-                    contact = acontact,
-                    onContactClick = onContactClick,
-                    isSelected = isContactSelected
-                )
-            }
+    LazyColumn {
+        items(count = contact.size) { contactIndex ->
+            val aContact = contact[contactIndex]
+            val isContactSelected = selectedContact.contains(aContact)
+            Contact(
+                contact = aContact,
+                onContactClick = onContactClick,
+                isSelected = isContactSelected
+            )
         }
     }
 }

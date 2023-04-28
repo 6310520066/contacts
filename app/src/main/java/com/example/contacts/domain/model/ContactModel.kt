@@ -8,6 +8,5 @@ data class ContactModel(
     val name: String = "",
     val phoneNumber: String = "",
     val tag: String = "",
-    val isCheckedOff: Boolean? = null,
     val color: ColorModel = ColorModel.DEFAULT
 )

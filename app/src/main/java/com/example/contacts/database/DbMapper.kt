@@ -20,8 +20,7 @@ class DbMapper {
     // convert ContactDbModel to ContactModel
     fun mapContact(contactDbModel: ContactDbModel, colorDbModel: ColorDbModel): ContactModel {
         val color = mapColor(colorDbModel)
-        val isCheckedOff = with(contactDbModel) { if (canBeCheckedOff) isCheckedOff else null }
-        return with(contactDbModel) { ContactModel(id, name, phoneNumber,tag, isCheckedOff, color) }
+        return with(contactDbModel) { ContactModel(id, name, phoneNumber,tag, color) }
     }
 
     // convert list of ColorDdModels to list of ColorModels
@@ -35,19 +34,15 @@ class DbMapper {
     // convert NoteModel back to NoteDbModel
     fun mapDbContact(note: ContactModel): ContactDbModel =
         with(note) {
-            val canBeCheckedOff = isCheckedOff != null
-            val isCheckedOff = isCheckedOff ?: false
             if (id == NEW_CONTACT_ID)
                 ContactDbModel(
                     name = name,
                     phoneNumber = phoneNumber,
                     tag = tag,
-                    canBeCheckedOff = canBeCheckedOff,
-                    isCheckedOff = isCheckedOff,
                     colorId = color.id,
                     isInTrash = false
                 )
             else
-                ContactDbModel(id, name, phoneNumber,tag, canBeCheckedOff, isCheckedOff, color.id, false)
+                ContactDbModel(id, name, phoneNumber,tag, color.id, false)
         }
 }

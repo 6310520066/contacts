@@ -244,7 +244,6 @@ private fun SaveContactContent(
                 onContactChange.invoke(contact.copy(name = newName))
             }
         )
-
         ContentTextField(
             modifier = Modifier
                 .heightIn(max = 240.dp)
@@ -256,43 +255,6 @@ private fun SaveContactContent(
                 onContactChange.invoke(contact.copy(phoneNumber = newPNumber))
             }
         )
-
-//        OutlinedTextField(
-//            readOnly = true,
-//            value = selectedGroup.value,
-//            onValueChange = {
-//                selectedGroup.value = it
-//                onContactChange.invoke(contact.copy(tag = it))
-//                            },
-//            modifier = Modifier
-//                .heightIn(max = 240.dp)
-//                .padding(top = 16.dp)
-//                .onGloballyPositioned { coordinates ->
-//                    // This value is used to assign to
-//                    // the DropDown the same width
-//                    selectTextFieldSize.value = coordinates.size.toSize()
-//                },
-//
-//            label = {Text("Type of contact")},
-//            trailingIcon = {
-//                Icon(icon,"contentDescription",
-//                    Modifier.clickable { expand.value = !expand.value })
-//            }
-//        )
-//
-//        DropdownMenu(expanded = expand.value
-//            ,onDismissRequest = { expand.value = false }
-//            ,modifier = Modifier
-//            .heightIn(max = 240.dp)
-//            .padding(top = 16.dp)
-//            .width(with(LocalDensity.current){selectTextFieldSize.value.width.toDp()}),
-//            //properties = true,
-//        ) {
-//            groupToSelect.forEach{label -> DropdownMenuItem(onClick = { selectedGroup.value = label; expand.value=false })
-//                { Text(text = label)
-//                }
-//            }
-//        }
         ContentTextField(
             modifier = Modifier
                 .heightIn(max = 240.dp)
@@ -303,18 +265,6 @@ private fun SaveContactContent(
                 onContactChange.invoke(contact.copy(tag = newTag))
             }
         )
-
-        val canBeCheckedOff: Boolean = contact.isCheckedOff != null
-
-        ContactCheckOption(
-            isChecked = canBeCheckedOff,
-            onCheckedChange = { canBeCheckedOffNewValue ->
-                val isCheckedOff: Boolean? = if (canBeCheckedOffNewValue) false else null
-
-                onContactChange.invoke(contact.copy(isCheckedOff = isCheckedOff))
-            }
-        )
-
         PickedColor(color = contact.color)
     }
 }
