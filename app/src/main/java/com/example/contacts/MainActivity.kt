@@ -1,6 +1,7 @@
 package com.example.contacts
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 val viewModel: MainViewModel = viewModel(
                     factory = MainViewModelFactory(LocalContext.current.applicationContext as Application)
                 )
-                MainActivityScreen(viewModel)
+                MainActivityScreen(viewModel, this)
             }
         }
     }
@@ -36,12 +37,12 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalMaterialApi
 @Composable
-fun MainActivityScreen(viewModel: MainViewModel) {
+fun MainActivityScreen(viewModel: MainViewModel, context: Context) {
     Surface {
         when (PhoneContactRouter.currentScreen) {
-            is Screen.Contact -> ContactScreen(viewModel)
+            is Screen.Contact -> ContactScreen(viewModel, context)
             is Screen.SaveContact -> SaveContactScreen(viewModel)
-            is Screen.Trash -> TrashScreen(viewModel)
+            is Screen.Trash -> TrashScreen(viewModel, context)
         }
     }
 }

@@ -306,14 +306,14 @@ private fun SaveContactContent(
 
         val canBeCheckedOff: Boolean = contact.isCheckedOff != null
 
-        ContactCheckOption(
-            isChecked = canBeCheckedOff,
-            onCheckedChange = { canBeCheckedOffNewValue ->
-                val isCheckedOff: Boolean? = if (canBeCheckedOffNewValue) false else null
-
-                onContactChange.invoke(contact.copy(isCheckedOff = isCheckedOff))
-            }
-        )
+//        ContactCheckOption(
+//            isChecked = canBeCheckedOff,
+//            onCheckedChange = { canBeCheckedOffNewValue ->
+//                val isCheckedOff: Boolean? = if (canBeCheckedOffNewValue) false else null
+//
+//                onContactChange.invoke(contact.copy(isCheckedOff = isCheckedOff))
+//            }
+//        )
 
         PickedColor(color = contact.color)
     }

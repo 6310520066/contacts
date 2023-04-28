@@ -1,7 +1,10 @@
 package com.example.contacts.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,7 +12,10 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import com.example.contacts.R
 import com.example.contacts.domain.model.ContactModel
 import com.example.contacts.routing.Screen
@@ -25,7 +31,7 @@ private const val PERMANENTLY_DELETE_DIALOG = 3
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 @ExperimentalMaterialApi
-fun TrashScreen(viewModel: MainViewModel) {
+fun TrashScreen(viewModel: MainViewModel, context: Context) {
 
     val contactInThrash: List<ContactModel> by viewModel.contactInTrash
         .observeAsState(listOf())
@@ -64,7 +70,8 @@ fun TrashScreen(viewModel: MainViewModel) {
             Content(
                 contact = contactInThrash,
                 onContactClick = { viewModel.onContactSelected(it) },
-                selectedContact = selectedContact
+                selectedContact = selectedContact,
+                context = context
             )
 
             val dialog = dialogState.value
@@ -153,41 +160,25 @@ private fun Content(
     contact: List<ContactModel>,
     onContactClick: (ContactModel) -> Unit,
     selectedContact: List<ContactModel>,
+    context: Context
 ) {
-    val tabs = listOf("REGULAR", "CHECKABLE")
-
-    // Init state for selected tab
-    var selectedTab by remember { mutableStateOf(0) }
-
-    Column {
-        TabRow(selectedTabIndex = selectedTab) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    text = { Text(title) },
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index }
-                )
-            }
+    if (contact.isEmpty()) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(text = "Nothing to show.", fontWeight = FontWeight.Bold)
         }
-
-        val filteredContact = when (selectedTab) {
-            0 -> {
-                contact.filter { it.isCheckedOff == null }
-            }
-            1 -> {
-                contact.filter { it.isCheckedOff != null }
-            }
-            else -> throw IllegalStateException("Tab not supported - index: $selectedTab")
-        }
-
+    } else {
         LazyColumn {
-            items(count = filteredContact.size) { contactIndex ->
-                val acontact = filteredContact[contactIndex]
-                val isContactSelected = selectedContact.contains(acontact)
+            items(count = contact.size) { contactIndex ->
+                val aContact = contact[contactIndex]
+                val isContactSelected = selectedContact.contains(aContact)
                 Contact(
-                    contact = acontact,
+                    contact = aContact,
                     onContactClick = onContactClick,
-                    isSelected = isContactSelected
+                    isSelected = isContactSelected,
+                    context = context
                 )
             }
         }

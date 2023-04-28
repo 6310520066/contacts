@@ -1,6 +1,7 @@
 package com.example.contacts.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -17,10 +18,11 @@ import com.example.contacts.ui.components.Contact
 import com.example.contacts.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalMaterialApi
 @Composable
-fun ContactScreen(viewModel: MainViewModel) {
+fun ContactScreen(viewModel: MainViewModel, context: Context) {
     val contact by viewModel.contactNotInTrash.observeAsState(listOf())
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -81,7 +83,8 @@ fun ContactScreen(viewModel: MainViewModel) {
                     onContactCheckedChange = {
                         viewModel.onContactCheckedChange(it)
                     },
-                    onContactClick = { viewModel.onContactClick(it) }
+                    onContactClick = { viewModel.onContactClick(it) },
+                    context = context
                 )
             }
         }
@@ -105,7 +108,8 @@ fun searchContact(searchBy:String,contactList : List<ContactModel>):List<Contact
 private fun ContactList(
     contact: List<ContactModel>,
     onContactCheckedChange: (ContactModel) -> Unit,
-    onContactClick: (ContactModel) -> Unit
+    onContactClick: (ContactModel) -> Unit,
+    context: Context
 ) {
     LazyColumn {
         items(count = contact.size) { contactIndex ->
@@ -114,7 +118,8 @@ private fun ContactList(
                 contact = aContact,
                 onContactClick = onContactClick,
                 onContactCheckedChange = onContactCheckedChange,
-                isSelected = false
+                isSelected = false,
+                context = context
             )
         }
     }
