@@ -47,6 +47,14 @@ fun ContactScreen(viewModel: MainViewModel, context: Context) {
                             contentDescription = "Drawer Button"
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = { viewModel.onCreateNewContactClick() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = "Add Contact Button"
+                        )
+                    }
                 }
             )
         },

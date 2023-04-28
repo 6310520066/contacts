@@ -293,16 +293,22 @@ private fun SaveContactContent(
 //                }
 //            }
 //        }
-        ContentTextField(
-            modifier = Modifier
-                .heightIn(max = 240.dp)
-                .padding(top = 16.dp),
-            label = "Tag",
-            text = contact.tag,
-            onTextChange = { newTag ->
+        TagDropdown(
+            selectedTag = contact.tag.ifBlank { "Mobile" },
+            onTagSelected = { newTag ->
                 onContactChange.invoke(contact.copy(tag = newTag))
             }
         )
+//        ContentTextField(
+//            modifier = Modifier
+//                .heightIn(max = 240.dp)
+//                .padding(top = 16.dp),
+//            label = "Tag",
+//            text = contact.tag,
+//            onTextChange = { newTag ->
+//                onContactChange.invoke(contact.copy(tag = newTag))
+//            }
+//        )
 
         val canBeCheckedOff: Boolean = contact.isCheckedOff != null
 
@@ -463,4 +469,50 @@ fun ColorPickerPreview() {
 @Composable
 fun PickedColorPreview() {
     PickedColor(ColorModel.DEFAULT)
+}
+
+@Composable
+private fun TagDropdown(
+    selectedTag: String,
+    onTagSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val tags = listOf("Mobile", "Home", "Friend", "Business", "Family", "Emergency")
+
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .clickable(onClick = { expanded = true })
+        .padding(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Select Tag:")
+            Text(
+                text = if (selectedTag.isBlank()) "Select a tag" else selectedTag,
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
+            )
+            IconButton(onClick = { expanded = true }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Expand category dropdown"
+                )
+            }
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            tags.forEach { tag ->
+                DropdownMenuItem(onClick = {
+                    onTagSelected(tag)
+                    expanded = false
+                }) {
+                    Text(text = tag)
+                }
+            }
+        }
+    }
 }
