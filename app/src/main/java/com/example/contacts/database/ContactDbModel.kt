@@ -17,12 +17,10 @@ data class ContactDbModel(
 ) {
     companion object {
         val DEFAULT_CONTACT = listOf(
-            ContactDbModel(1, "Bob DoSomething", "0871234567","Mobile", false, false, 1, false),
-            ContactDbModel(2, "Bills Gate", "1871234567","Home", false, false, 2, false),
-            ContactDbModel(3, "Pancake Kem", "2871234567","Work", false, false, 3, false),
-            ContactDbModel(4, "Work tilldie", "3871234567","Mobile", false, false, 4, false),
-            ContactDbModel(5, "Tom Cruise", "4871234567","Home", false, false, 5, false),
-            ContactDbModel(6, "Josh Wdish", "5871234567","Work", true, false, 12, false)
+            ContactDbModel(1, "Thammasat Hospital", "029269999","Emergency",  false,false,12, false),
+            ContactDbModel(2, "Police", "191","Emergency",  false,false,12, false),
+            ContactDbModel(3, "Fire", "199","Emergency",  false,false,12, false),
+            ContactDbModel(4, "Emergency Car", "1669","Emergency",  false,false,12, false),
         )
     }
 }
